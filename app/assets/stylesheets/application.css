@@ -8,3 +8,23 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+.car-photo {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #343a40, #6c757d);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.car-photo-lg {
+  height: 340px;
+}
+
+.card > .car-photo {
+  border-radius: 0.375rem 0.375rem 0 0;
+}

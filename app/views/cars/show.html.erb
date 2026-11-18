@@ -1,0 +1,43 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Каталог", cars_path %></li>
+    <li class="breadcrumb-item active"><%= @car.full_name %></li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="car-photo car-photo-lg rounded"><%= @car.brand.name %></div>
+    <h3 class="mt-4">Опис</h3>
+    <p><%= @car.description %></p>
+  </div>
+
+  <div class="col-lg-5">
+    <h1><%= @car.full_name %></h1>
+    <p class="mb-2"><%= car_status_badge(@car) %></p>
+    <p class="display-6 fw-bold"><%= car_price(@car) %></p>
+
+    <table class="table table-sm">
+      <tbody>
+        <tr><th>Рік випуску</th><td><%= @car.year %></td></tr>
+        <tr><th>Кузов</th><td><%= @car.body_type %></td></tr>
+        <tr><th>Двигун</th><td><%= @car.engine %></td></tr>
+        <tr><th>Потужність</th><td><%= @car.horsepower %> к.с.</td></tr>
+        <tr><th>Коробка передач</th><td><%= @car.transmission %></td></tr>
+        <tr><th>Привід</th><td><%= @car.drive %></td></tr>
+        <tr><th>Колір</th><td><%= @car.color %></td></tr>
+        <tr><th>Країна марки</th><td><%= @car.brand.country %></td></tr>
+      </tbody>
+    </table>
+
+    <div class="d-grid gap-2">
+           <% if @car.available? %>
+        <%= button_to "Додати в кошик", cart_items_path(car_id: @car.id), method: :post,
+                      class: "btn btn-warning btn-lg w-100", form_class: "d-grid" %>
+      <% else %>
+        <button class="btn btn-secondary btn-lg" disabled>Недоступне для замовлення</button>
+      <% end %>
+      <button class="btn btn-outline-dark" disabled>Записатися на тест-драйв (скоро)</button>
+    </div>
+  </div>
+</div>

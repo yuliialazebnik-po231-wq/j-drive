@@ -1,0 +1,46 @@
+<h1 class="mb-4">Каталог автомобілів</h1>
+
+<%= form_with url: cars_path, method: :get, class: "row g-2 mb-4" do |f| %>
+  <div class="col-md-3">
+    <%= f.select :brand_id, options_from_collection_for_select(@brands, :id, :name, params[:brand_id]),
+                 { include_blank: "Усі марки" }, class: "form-select" %>
+  </div>
+  <div class="col-md-3">
+    <%= f.select :body_type, options_for_select(@body_types, params[:body_type]),
+                 { include_blank: "Усі кузови" }, class: "form-select" %>
+  </div>
+  <div class="col-md-2">
+    <%= f.number_field :max_price, value: params[:max_price], placeholder: "Ціна до, $", class: "form-control" %>
+  </div>
+  <div class="col-md-2">
+    <%= f.select :sort, options_for_select([ [ "Спочатку нові", "newest" ], [ "Дешевші", "price_asc" ], [ "Дорожчі", "price_desc" ] ], params[:sort]),
+                 {}, class: "form-select" %>
+  </div>
+  <div class="col-md-2 d-flex gap-2">
+    <%= f.submit "Знайти", name: nil, class: "btn btn-warning" %>
+    <%= link_to "Скинути", cars_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>
+
+<% if @cars.any? %>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @cars.each do |car| %>
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="car-photo"><%= car.brand.name %></div>
+          <div class="card-body">
+            <h5 class="card-title"><%= car.full_name %></h5>
+            <p class="text-muted mb-2"><%= car.year %> · <%= car.body_type %> · <%= car.horsepower %> к.с.</p>
+            <p class="fs-4 fw-bold mb-0"><%= car_price(car) %></p>
+          </div>
+          <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <%= car_status_badge(car) %>
+            <%= link_to "Детальніше", car_path(car), class: "btn btn-dark btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">За вашим запитом автомобілів не знайдено.</div>
+<% end %>

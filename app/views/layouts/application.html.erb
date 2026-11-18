@@ -17,9 +17,13 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <%= link_to Rails.configuration.x.shop_name, root_path, class: "navbar-brand fw-bold" %>
+        <%= link_to "Каталог", cars_path, class: "nav-link text-light ms-3" %>
         <div class="ms-auto d-flex gap-2 align-items-center">
           <% if user_signed_in? %>
             <span class="text-light"><%= current_user.name %></span>
+            <%= link_to cart_path, class: "btn btn-outline-light btn-sm" do %>
+              Кошик <span class="badge text-bg-warning"><%= cart_count %></span>
+            <% end %>
             <%= button_to "Вийти", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
           <% else %>
             <%= link_to "Увійти", new_user_session_path, class: "btn btn-outline-light btn-sm" %>
