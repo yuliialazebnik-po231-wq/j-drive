@@ -1,0 +1,5 @@
+class Brand < ApplicationRecord
+  has_many :cars, dependent: :restrict_with_error
+
+  validates :name, presence: true, uniqueness: true
+end
