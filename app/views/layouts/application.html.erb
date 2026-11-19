@@ -18,6 +18,7 @@
       <div class="container">
         <%= link_to Rails.configuration.x.shop_name, root_path, class: "navbar-brand fw-bold" %>
         <%= link_to "Каталог", cars_path, class: "nav-link text-light ms-3" %>
+                <%= link_to "Контакти", new_feedback_message_path, class: "nav-link text-light ms-2" %>
         <div class="ms-auto d-flex gap-2 align-items-center">
           <% if user_signed_in? %>
             <span class="text-light"><%= current_user.name %></span>

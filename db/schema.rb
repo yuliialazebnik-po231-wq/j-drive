@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_18_210317) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_19_081450) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,6 +66,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_210317) do
     t.index ["user_id"], name: "index_carts_on_user_id", unique: true
   end
 
+  create_table "feedback_messages", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.text "message"
+    t.boolean "handled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.bigint "order_id", null: false
     t.bigint "car_id", null: false
@@ -91,6 +100,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_210317) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "car_id", null: false
+    t.integer "rating"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_reviews_on_car_id"
+    t.index ["user_id", "car_id"], name: "index_reviews_on_user_id_and_car_id", unique: true
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -114,4 +135,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_210317) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "branches"
   add_foreign_key "orders", "users"
+  add_foreign_key "reviews", "cars"
+  add_foreign_key "reviews", "users"
 end

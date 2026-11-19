@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :cars, only: %i[index show]
+    resources :cars, only: %i[index show] do
+    resources :reviews, only: %i[create destroy]
+  end
+  resources :feedback_messages, path: "contacts", only: %i[new create]
   resource :cart, only: :show
   resources :cart_items, only: %i[create destroy]
   resources :orders, only: %i[index show new create]

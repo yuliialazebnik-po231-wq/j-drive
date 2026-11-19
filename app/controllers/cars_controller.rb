@@ -3,7 +3,7 @@ class CarsController < ApplicationController
     @brands = Brand.order(:name)
     @body_types = Car.distinct.order(:body_type).pluck(:body_type)
 
-    @cars = Car.includes(:brand)
+    @cars = Car.includes(:brand, :reviews)
     @cars = @cars.where(brand_id: params[:brand_id]) if params[:brand_id].present?
     @cars = @cars.where(body_type: params[:body_type]) if params[:body_type].present?
     @cars = @cars.where("price <= ?", params[:max_price]) if params[:max_price].present?
@@ -17,5 +17,8 @@ class CarsController < ApplicationController
 
   def show
     @car = Car.find(params[:id])
+    @reviews = @car.reviews.includes(:user).order(created_at: :desc)
+    @new_review = Review.new
+    @already_reviewed = user_signed_in? && @reviews.any? { |review| review.user_id == current_user.id }
   end
 end

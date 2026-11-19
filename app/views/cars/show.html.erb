@@ -41,3 +41,66 @@
     </div>
   </div>
 </div>
+
+<section id="reviews" class="mt-5">
+  <div class="d-flex flex-wrap align-items-baseline gap-3 mb-3">
+    <h3 class="mb-0">Відгуки (<%= @reviews.size %>)</h3>
+    <% if @car.average_rating %>
+      <span class="text-warning fs-5"><%= rating_stars(@car.average_rating) %></span>
+      <span class="text-muted">середня оцінка <%= @car.average_rating %> з 5</span>
+    <% end %>
+  </div>
+
+  <% if !user_signed_in? %>
+    <div class="alert alert-info">
+      <%= link_to "Увійдіть", new_user_session_path %>, щоб залишити відгук.
+    </div>
+  <% elsif @already_reviewed %>
+    <div class="alert alert-secondary">Ви вже залишили відгук на цей автомобіль.</div>
+  <% else %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <%= form_with model: [ @car, @new_review ] do |f| %>
+          <div class="row g-3">
+            <div class="col-md-3">
+              <%= f.label :rating, "Оцінка", class: "form-label" %>
+              <%= f.select :rating,
+                           [ [ "5 — Відмінно", 5 ], [ "4 — Добре", 4 ], [ "3 — Нормально", 3 ],
+                             [ "2 — Погано", 2 ], [ "1 — Жахливо", 1 ] ],
+                           {}, class: "form-select" %>
+            </div>
+            <div class="col-md-9">
+              <%= f.label :comment, "Ваш відгук", class: "form-label" %>
+              <%= f.text_area :comment, rows: 3, class: "form-control" %>
+            </div>
+          </div>
+          <%= f.submit "Надіслати відгук", class: "btn btn-warning mt-3" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @reviews.any? %>
+    <% @reviews.each do |review| %>
+      <div class="card mb-2">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <strong><%= review.user.name %></strong>
+              <span class="text-warning ms-2"><%= rating_stars(review.rating) %></span>
+              <div class="text-muted small"><%= l(review.created_at, format: "%d.%m.%Y") %></div>
+            </div>
+            <% if user_signed_in? && (review.user_id == current_user.id || current_user.admin?) %>
+              <%= button_to "Видалити", car_review_path(@car, review), method: :delete,
+                            class: "btn btn-outline-danger btn-sm",
+                            form: { data: { turbo_confirm: "Видалити цей відгук?" } } %>
+            <% end %>
+          </div>
+          <p class="mb-0 mt-2"><%= review.comment %></p>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-muted">Відгуків ще немає. Станьте першим!</p>
+  <% end %>
+</section>

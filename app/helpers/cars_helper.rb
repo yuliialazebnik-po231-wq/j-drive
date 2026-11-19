@@ -17,4 +17,9 @@ module CarsHelper
   def car_price(car)
     format_money(car.price)
   end
+
+  def rating_stars(rating)
+    filled = rating.to_f.round
+    ("★" * filled) + ("☆" * (5 - filled))
+  end
 end

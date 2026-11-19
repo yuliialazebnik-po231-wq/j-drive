@@ -1,0 +1,51 @@
+<h1 class="mb-4">Контакти та зворотний звʼязок</h1>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header fw-bold">Напишіть нам</div>
+      <div class="card-body">
+        <% if @feedback.errors.any? %>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <% @feedback.errors.map(&:message).each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= form_with model: @feedback, url: feedback_messages_path do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "Ваше імʼя", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :email, "Email для відповіді", class: "form-label" %>
+            <%= f.email_field :email, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :message, "Повідомлення", class: "form-label" %>
+            <%= f.text_area :message, rows: 5, class: "form-control" %>
+          </div>
+          <%= f.submit "Надіслати", class: "btn btn-warning" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-header fw-bold">Наші салони</div>
+      <ul class="list-group list-group-flush">
+        <% @branches.each do |branch| %>
+          <li class="list-group-item">
+            <strong><%= branch.name %></strong><br>
+            <%= branch.city %>, <%= branch.address %><br>
+            <span class="text-muted"><%= branch.phone %></span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
