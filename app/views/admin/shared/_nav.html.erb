@@ -1,0 +1,17 @@
+<% sections = [
+  [ "Огляд", admin_root_path, "admin/dashboard" ],
+  [ "Авто", admin_cars_path, "admin/cars" ],
+  [ "Замовлення", admin_orders_path, "admin/orders" ],
+  [ "Тест-драйви", admin_test_drives_path, "admin/test_drives" ],
+  [ "Відгуки", admin_reviews_path, "admin/reviews" ],
+  [ "Повідомлення", admin_feedback_messages_path, "admin/feedback_messages" ],
+  [ "Користувачі", admin_users_path, "admin/users" ]
+] %>
+
+<ul class="nav nav-pills mb-4 flex-wrap">
+  <% sections.each do |label, path, ctrl| %>
+    <li class="nav-item">
+      <%= link_to label, path, class: "nav-link #{'active' if controller_path == ctrl}" %>
+    </li>
+  <% end %>
+</ul>

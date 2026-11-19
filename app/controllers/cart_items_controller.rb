@@ -1,6 +1,6 @@
 class CartItemsController < ApplicationController
   before_action :authenticate_user!
-
+  before_action :reject_admin
   def create
     car = Car.find(params[:car_id])
     item = current_user.current_cart.cart_items.build(car: car)

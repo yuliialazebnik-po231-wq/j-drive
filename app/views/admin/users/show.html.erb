@@ -1,0 +1,65 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Користувачі", admin_users_path %></li>
+    <li class="breadcrumb-item active"><%= @user.name %></li>
+  </ol>
+</nav>
+
+<h1 class="mb-1"><%= @user.name %></h1>
+<p class="text-muted"><%= @user.email %> · <%= @user.phone.presence || "телефон не вказано" %></p>
+
+<h4 class="mt-4">Кошик</h4>
+<% if @cart_items.any? %>
+  <table class="table align-middle">
+    <thead><tr><th>Автомобіль</th><th>Статус</th><th class="text-end">Ціна</th><th></th></tr></thead>
+    <tbody>
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td><%= item.car.full_name %></td>
+          <td><%= car_status_badge(item.car) %></td>
+          <td class="text-end"><%= car_price(item.car) %></td>
+          <td class="text-end">
+            <%= button_to "Видалити з кошика", admin_user_cart_item_path(@user, item), method: :delete,
+                          class: "btn btn-outline-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-muted">Кошик порожній.</p>
+<% end %>
+
+<h4 class="mt-4">Замовлення</h4>
+<% if @orders.any? %>
+  <table class="table align-middle">
+    <thead><tr><th>№</th><th>Автомобілі</th><th>Застава</th><th>Статус</th><th></th></tr></thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <td><%= order.cars.map(&:full_name).join(", ") %></td>
+          <td><%= format_money(order.deposit_amount) %></td>
+          <td><%= order_status_badge(order) %></td>
+          <td class="text-end"><%= link_to "Деталі", admin_order_path(order), class: "btn btn-dark btn-sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-muted">Замовлень немає.</p>
+<% end %>
+
+<h4 class="mt-4">Тест-драйви</h4>
+<% if @test_drives.any? %>
+  <ul class="list-group">
+    <% @test_drives.each do |td| %>
+      <li class="list-group-item d-flex justify-content-between">
+        <span><%= td.car.full_name %> — <%= l(td.scheduled_at, format: "%d.%m.%Y %H:%M") %></span>
+        <%= test_drive_status_badge(td) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-muted">Записів немає.</p>
+<% end %>

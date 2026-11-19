@@ -10,6 +10,17 @@ Rails.application.routes.draw do
   resource :cart, only: :show
   resources :cart_items, only: %i[create destroy]
   resources :orders, only: %i[index show new create]
+    namespace :admin do
+    root "dashboard#index"
+    resources :cars, except: :show
+    resources :orders, only: %i[index show update]
+    resources :test_drives, only: %i[index update]
+    resources :reviews, only: %i[index destroy]
+    resources :feedback_messages, only: %i[index update]
+    resources :users, only: %i[index show] do
+      resources :cart_items, only: :destroy
+    end
+  end
   root "home#index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

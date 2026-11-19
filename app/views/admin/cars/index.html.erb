@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Автомобілі</h1>
+  <%= link_to "+ Додати авто", new_admin_car_path, class: "btn btn-warning" %>
+</div>
+
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead>
+      <tr><th>ID</th><th>Автомобіль</th><th>Рік</th><th>Ціна</th><th>Статус</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @cars.each do |car| %>
+        <tr>
+          <td><%= car.id %></td>
+          <td><%= link_to car.full_name, car_path(car), class: "text-decoration-none fw-bold" %></td>
+          <td><%= car.year %></td>
+          <td><%= car_price(car) %></td>
+          <td><%= car_status_badge(car) %></td>
+          <td class="text-end">
+            <div class="d-flex gap-2 justify-content-end">
+              <%= link_to "Редагувати", edit_admin_car_path(car), class: "btn btn-outline-dark btn-sm" %>
+              <%= button_to "Видалити", admin_car_path(car), method: :delete,
+                            class: "btn btn-outline-danger btn-sm",
+                            form: { data: { turbo_confirm: "Видалити #{car.full_name}?" } } %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

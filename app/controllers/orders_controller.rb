@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :reject_admin
 
   class CarUnavailable < StandardError; end
 

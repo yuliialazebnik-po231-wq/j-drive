@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Замовлення №<%= @order.id %></h1>
+  <%= order_status_badge(@order) %>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card mb-4">
+      <div class="card-header fw-bold">Автомобілі</div>
+      <ul class="list-group list-group-flush">
+        <% @order.order_items.includes(car: :brand).each do |item| %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><%= item.car.full_name %> (<%= item.car.year %>) — <%= car_status_badge(item.car) %></span>
+            <strong><%= format_money(item.price) %></strong>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header fw-bold">Клієнт і видача</div>
+      <div class="card-body">
+        <p class="mb-1"><strong>Клієнт:</strong> <%= link_to @order.user.name, admin_user_path(@order.user) %> (<%= @order.user.email %>)</p>
+        <p class="mb-1"><strong>Телефон:</strong> <%= @order.user.phone.presence || "не вказано" %></p>
+        <p class="mb-1"><strong>Філія:</strong> <%= @order.branch.full_address %>, <%= @order.branch.city %></p>
+        <p class="mb-0"><strong>Дата й час:</strong> <%= l(@order.pickup_at, format: "%d.%m.%Y о %H:%M") %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card mb-4">
+      <div class="card-header fw-bold">Оплата</div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between"><span>Вартість</span><strong><%= format_money(@order.total_price) %></strong></li>
+        <li class="list-group-item d-flex justify-content-between"><span>Застава</span><strong class="text-success"><%= format_money(@order.deposit_amount) %></strong></li>
+        <li class="list-group-item d-flex justify-content-between bg-light"><span>Залишок в салоні</span><strong><%= format_money(@order.remaining_amount) %></strong></li>
+        <li class="list-group-item text-muted small">Картка: **** <%= @order.card_last4 %></li>
+      </ul>
+    </div>
+
+    <% if @order.deposit_paid? %>
+      <div class="d-grid gap-2">
+        <%= button_to "Авто видано (продано)", admin_order_path(@order), method: :patch,
+                      params: { status: "completed" }, class: "btn btn-primary w-100",
+                      form: { class: "d-grid", data: { turbo_confirm: "Позначити авто як видане клієнту?" } } %>
+        <%= button_to "Скасувати замовлення", admin_order_path(@order), method: :patch,
+                      params: { status: "cancelled" }, class: "btn btn-outline-danger w-100",
+                      form: { class: "d-grid", data: { turbo_confirm: "Скасувати замовлення? Авто знову стане доступним." } } %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-4"><%= link_to "← До списку замовлень", admin_orders_path %></div>

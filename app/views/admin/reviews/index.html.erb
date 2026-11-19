@@ -1,0 +1,27 @@
+<h1 class="mb-4">Відгуки</h1>
+
+<% if @reviews.any? %>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead><tr><th>Дата</th><th>Автомобіль</th><th>Автор</th><th>Оцінка</th><th>Відгук</th><th></th></tr></thead>
+      <tbody>
+        <% @reviews.each do |review| %>
+          <tr>
+            <td><%= l(review.created_at, format: "%d.%m.%Y") %></td>
+            <td><%= review.car.full_name %></td>
+            <td><%= review.user.name %></td>
+            <td class="text-warning"><%= rating_stars(review.rating) %></td>
+            <td><%= review.comment %></td>
+            <td class="text-end">
+              <%= button_to "Видалити", admin_review_path(review), method: :delete,
+                            class: "btn btn-outline-danger btn-sm",
+                            form: { data: { turbo_confirm: "Видалити цей відгук?" } } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">Відгуків поки немає.</div>
+<% end %>

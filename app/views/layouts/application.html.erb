@@ -18,21 +18,25 @@
       <div class="container">
         <%= link_to Rails.configuration.x.shop_name, root_path, class: "navbar-brand fw-bold" %>
         <%= link_to "Каталог", cars_path, class: "nav-link text-light ms-3" %>
-                <%= link_to "Контакти", new_feedback_message_path, class: "nav-link text-light ms-2" %>
+        <%= link_to "Контакти", new_feedback_message_path, class: "nav-link text-light ms-2" %>
         <div class="ms-auto d-flex gap-2 align-items-center">
           <% if user_signed_in? %>
-            <span class="text-light"><%= current_user.name %></span>
-                      <div class="dropdown">
-              <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button"
-                      data-bs-toggle="dropdown" aria-expanded="false">Мій кабінет</button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><%= link_to "Мої замовлення", orders_path, class: "dropdown-item" %></li>
-                <li><%= link_to "Мої тест-драйви", test_drives_path, class: "dropdown-item" %></li>
-              </ul>
-            </div>
-            <%= link_to cart_path, class: "btn btn-outline-light btn-sm" do %>
-              Кошик <span class="badge text-bg-warning"><%= cart_count %></span>
+            <% if current_user.admin? %>
+              <%= link_to "Адміністратор", admin_root_path, class: "btn btn-danger btn-sm" %>
+            <% else %>
+              <div class="dropdown">
+                <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Мій кабінет</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><%= link_to "Мої замовлення", orders_path, class: "dropdown-item" %></li>
+                  <li><%= link_to "Мої тест-драйви", test_drives_path, class: "dropdown-item" %></li>
+                </ul>
+              </div>
+              <%= link_to cart_path, class: "btn btn-outline-light btn-sm" do %>
+                Кошик <span class="badge text-bg-warning"><%= cart_count %></span>
+              <% end %>
             <% end %>
+            <span class="text-light"><%= current_user.name %></span>
             <%= button_to "Вийти", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
           <% else %>
             <%= link_to "Увійти", new_user_session_path, class: "btn btn-outline-light btn-sm" %>
@@ -45,6 +49,7 @@
     <main class="container py-4">
       <% if notice %><div class="alert alert-success"><%= notice %></div><% end %>
       <% if alert %><div class="alert alert-danger"><%= alert %></div><% end %>
+      <%= render "admin/shared/nav" if controller_path.start_with?("admin/") %>
       <%= yield %>
     </main>
   </body>

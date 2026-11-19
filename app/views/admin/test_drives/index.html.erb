@@ -1,0 +1,38 @@
+<h1 class="mb-4">Заявки на тест-драйв</h1>
+
+<% if @test_drives.any? %>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr><th>Автомобіль</th><th>Клієнт</th><th>Філія</th><th>Дата й час</th><th>Статус</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% @test_drives.each do |td| %>
+          <tr>
+            <td><%= td.car.full_name %></td>
+            <td>
+              <%= td.user.name %><br>
+              <span class="text-muted small"><%= td.phone %></span>
+              <% if td.comment.present? %><br><span class="small">«<%= td.comment %>»</span><% end %>
+            </td>
+            <td><%= td.branch.city %></td>
+            <td><%= l(td.scheduled_at, format: "%d.%m.%Y %H:%M") %></td>
+            <td><%= test_drive_status_badge(td) %></td>
+            <td class="text-end">
+              <% if td.pending? %>
+                <div class="d-flex gap-2 justify-content-end">
+                  <%= button_to "Підтвердити", admin_test_drive_path(td), method: :patch,
+                                params: { status: "confirmed" }, class: "btn btn-success btn-sm" %>
+                  <%= button_to "Відхилити", admin_test_drive_path(td), method: :patch,
+                                params: { status: "rejected" }, class: "btn btn-outline-danger btn-sm" %>
+                </div>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">Заявок поки немає.</div>
+<% end %>

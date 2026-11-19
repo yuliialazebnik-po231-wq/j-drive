@@ -1,5 +1,6 @@
 class TestDrivesController < ApplicationController
   before_action :authenticate_user!
+  before_action :reject_admin
   before_action :set_car, only: %i[new create]
 
   def index

@@ -1,0 +1,42 @@
+<h1 class="mb-4">Адмін-панель</h1>
+
+<div class="row g-3 mb-4">
+  <% [
+    [ "Авто в каталозі", @stats[:cars], "dark" ],
+    [ "Доступні авто", @stats[:available], "success" ],
+    [ "Замовлення", @stats[:orders], "primary" ],
+    [ "Тест-драйви на підтвердження", @stats[:pending_drives], "warning" ],
+    [ "Нові повідомлення", @stats[:new_messages], "danger" ],
+    [ "Користувачі", @stats[:users], "secondary" ]
+  ].each do |label, value, color| %>
+    <div class="col-6 col-lg-4">
+      <div class="card text-bg-<%= color %> h-100">
+        <div class="card-body">
+          <div class="display-6 fw-bold"><%= value %></div>
+          <div><%= label %></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<h4>Останні замовлення</h4>
+<% if @recent_orders.any? %>
+  <table class="table">
+    <thead><tr><th>№</th><th>Клієнт</th><th>Філія</th><th>Застава</th><th>Статус</th><th></th></tr></thead>
+    <tbody>
+      <% @recent_orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <td><%= order.user.name %></td>
+          <td><%= order.branch.city %></td>
+          <td><%= format_money(order.deposit_amount) %></td>
+          <td><%= order_status_badge(order) %></td>
+          <td class="text-end"><%= link_to "Деталі", admin_order_path(order), class: "btn btn-dark btn-sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-muted">Замовлень поки немає.</p>
+<% end %>

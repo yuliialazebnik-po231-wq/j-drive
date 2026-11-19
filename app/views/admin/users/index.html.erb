@@ -1,0 +1,23 @@
+<h1 class="mb-4">Користувачі</h1>
+
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead><tr><th>ID</th><th>Імʼя</th><th>Email</th><th>Телефон</th><th>У кошику</th><th>Замовлень</th><th></th></tr></thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td>
+            <%= user.name %>
+            <% if user.admin? %><span class="badge text-bg-danger ms-1">адмін</span><% end %>
+          </td>
+          <td><%= user.email %></td>
+          <td><%= user.phone %></td>
+          <td><%= user.cart ? user.cart.cart_items.size : 0 %></td>
+          <td><%= user.orders.size %></td>
+          <td class="text-end"><%= link_to "Відкрити", admin_user_path(user), class: "btn btn-dark btn-sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
