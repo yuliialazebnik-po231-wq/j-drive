@@ -37,7 +37,9 @@
       <% else %>
         <button class="btn btn-secondary btn-lg" disabled>Недоступне для замовлення</button>
       <% end %>
-      <button class="btn btn-outline-dark" disabled>Записатися на тест-драйв (скоро)</button>
+            <% unless @car.sold? %>
+        <%= link_to "Записатися на тест-драйв", new_car_test_drive_path(@car), class: "btn btn-outline-dark" %>
+      <% end %>
     </div>
   </div>
 </div>

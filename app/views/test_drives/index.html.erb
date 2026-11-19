@@ -1,0 +1,37 @@
+<h1 class="mb-4">Мої тест-драйви</h1>
+
+<% if @test_drives.any? %>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Автомобіль</th>
+          <th>Філія</th>
+          <th>Дата й час</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @test_drives.each do |test_drive| %>
+          <tr>
+            <td><%= link_to test_drive.car.full_name, car_path(test_drive.car), class: "text-decoration-none fw-bold" %></td>
+            <td><%= test_drive.branch.city %>, <%= test_drive.branch.address %></td>
+            <td><%= l(test_drive.scheduled_at, format: "%d.%m.%Y о %H:%M") %></td>
+            <td><%= test_drive_status_badge(test_drive) %></td>
+            <td class="text-end">
+              <% if test_drive.active? %>
+                <%= button_to "Скасувати", cancel_test_drive_path(test_drive), method: :patch,
+                              class: "btn btn-outline-danger btn-sm",
+                              form: { data: { turbo_confirm: "Скасувати запис на тест-драйв?" } } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">У вас поки що немає записів на тест-драйв.</div>
+  <%= link_to "Перейти до каталогу", cars_path, class: "btn btn-warning" %>
+<% end %>

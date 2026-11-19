@@ -22,7 +22,14 @@
         <div class="ms-auto d-flex gap-2 align-items-center">
           <% if user_signed_in? %>
             <span class="text-light"><%= current_user.name %></span>
-            <%= link_to "Мої замовлення", orders_path, class: "btn btn-outline-light btn-sm" %>
+                      <div class="dropdown">
+              <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">Мій кабінет</button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><%= link_to "Мої замовлення", orders_path, class: "dropdown-item" %></li>
+                <li><%= link_to "Мої тест-драйви", test_drives_path, class: "dropdown-item" %></li>
+              </ul>
+            </div>
             <%= link_to cart_path, class: "btn btn-outline-light btn-sm" do %>
               Кошик <span class="badge text-bg-warning"><%= cart_count %></span>
             <% end %>

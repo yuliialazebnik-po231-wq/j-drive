@@ -1,0 +1,68 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Каталог", cars_path %></li>
+    <li class="breadcrumb-item"><%= link_to @car.full_name, car_path(@car) %></li>
+    <li class="breadcrumb-item active">Тест-драйв</li>
+  </ol>
+</nav>
+
+<h1 class="mb-4">Запис на тест-драйв: <%= @car.full_name %></h1>
+
+<% messages = @test_drive.errors.map(&:message) %>
+<% if messages.any? %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-body">
+        <%= form_with model: @test_drive, url: car_test_drives_path(@car) do |f| %>
+          <div class="mb-3">
+            <%= f.label :branch_id, "Філія салону", class: "form-label" %>
+            <%= f.select :branch_id,
+                         options_from_collection_for_select(@branches, :id, :full_address, @test_drive.branch_id),
+                         { prompt: "Оберіть філію" }, class: "form-select" %>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <%= label_tag :drive_date, "Дата", class: "form-label" %>
+              <%= date_field_tag :drive_date, params[:drive_date],
+                                 min: Date.tomorrow, max: Date.current + TestDrive::MAX_DAYS,
+                                 class: "form-control" %>
+            </div>
+            <div class="col-md-6">
+              <%= label_tag :drive_time, "Час", class: "form-label" %>
+              <%= select_tag :drive_time, options_for_select(TestDrive::SLOTS, params[:drive_time]),
+                             class: "form-select" %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :phone, "Телефон для звʼязку", class: "form-label" %>
+            <%= f.telephone_field :phone, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :comment, "Коментар (необовʼязково)", class: "form-label" %>
+            <%= f.text_area :comment, rows: 3, class: "form-control" %>
+          </div>
+
+          <div class="form-check mb-4">
+            <%= f.check_box :license_confirmed, class: "form-check-input" %>
+            <%= f.label :license_confirmed, "Підтверджую, що маю чинне посвідчення водія", class: "form-check-label" %>
+          </div>
+
+          <%= f.submit "Записатися", class: "btn btn-warning btn-lg" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

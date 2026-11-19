@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
     resources :cars, only: %i[index show] do
     resources :reviews, only: %i[create destroy]
+    resources :test_drives, only: %i[new create]
+  end
+  resources :test_drives, only: :index do
+    member { patch :cancel }
   end
   resources :feedback_messages, path: "contacts", only: %i[new create]
   resource :cart, only: :show

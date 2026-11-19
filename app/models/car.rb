@@ -3,6 +3,7 @@ class Car < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :restrict_with_error
   has_many :reviews, dependent: :destroy
+  has_many :test_drives, dependent: :destroy
   enum :status, { available: 0, reserved: 1, sold: 2 }
 
   validates :name, :year, :price, presence: true
