@@ -9,64 +9,62 @@ brands_data = {
   "Dodge"      => "США",
   "Subaru"     => "Японія",
   "Honda"      => "Японія",
-  "Volvo"      => "Швеція",
-  "Saab"       => "Швеція"
+  "Volvo"      => "Швеція"
 }
 
 brands = brands_data.to_h do |name, country|
   [ name, Brand.find_or_create_by!(name: name) { |b| b.country = country } ]
 end
 
-# ---------- Автомобілі ----------
+# ---------- Автомобілі (нові, актуальні моделі) ----------
 cars_data = [
-  { brand: "Volkswagen", name: "Passat B8", year: 2024, price: 38_500, body_type: "Седан",
+  { brand: "Volkswagen", name: "Passat Variant", year: 2026, price: 42_500, body_type: "Універсал",
     engine: "2.0 TDI", horsepower: 150, transmission: "Автомат (DSG)", drive: "Передній", color: "Сірий",
-    description: "Класичний бізнес-седан: просторий салон, економічний дизель і спокійна їзда на довгих дистанціях." },
+    description: "Нове покоління Passat у кузові універсал: просторий салон, великий багажник і економічний дизель для довгих поїздок." },
 
-  { brand: "Volkswagen", name: "Passat Alltrack", year: 2024, price: 46_900, body_type: "Універсал",
-    engine: "2.0 TDI", horsepower: 200, transmission: "Автомат (DSG)", drive: "Повний (4Motion)", color: "Зелений",
-    description: "Підвищений універсал з повним приводом для тих, кому тісно на асфальті." },
+  { brand: "Škoda", name: "Superb", year: 2026, price: 44_900, body_type: "Ліфтбек",
+    engine: "2.0 TSI", horsepower: 204, transmission: "Автомат (DSG)", drive: "Передній", color: "Чорний",
+    description: "Флагман Škoda з рекордним простором для пасажирів і багажником, який вміщує все для сімейної подорожі." },
 
-  { brand: "Škoda", name: "Superb", year: 2024, price: 41_200, body_type: "Ліфтбек",
-    engine: "2.0 TSI", horsepower: 190, transmission: "Автомат (DSG)", drive: "Передній", color: "Чорний",
-    description: "Найбільший багажник у класі та салон, у якому вистачає місця всім пасажирам." },
+  { brand: "Audi", name: "A5 Sportback", year: 2026, price: 55_800, body_type: "Ліфтбек",
+    engine: "2.0 TFSI (м'яка гібридна)", horsepower: 265, transmission: "Автомат (S tronic)", drive: "Повний (quattro)", color: "Білий",
+    description: "Спортивний силует, цифрова панель приладів і повний привід quattro для впевненої їзди за будь-якої погоди." },
 
-  { brand: "Audi", name: "A5 Sportback", year: 2024, price: 52_800, body_type: "Ліфтбек",
-    engine: "2.0 TFSI", horsepower: 204, transmission: "Автомат (S tronic)", drive: "Повний (quattro)", color: "Білий",
-    description: "Спортивний силует, віртуальна панель приладів і фірмовий повний привід quattro." },
+  { brand: "BMW", name: "330i", year: 2026, price: 54_900, body_type: "Седан",
+    engine: "2.0 Turbo", horsepower: 258, transmission: "Автомат (8)", drive: "Задній", color: "Синій",
+    description: "Еталон керованості серед седанів бізнес-класу: точне рульове керування й класичний задній привід." },
 
-  { brand: "BMW", name: "330i", year: 2024, price: 54_500, body_type: "Седан",
-    engine: "2.0 Turbo", horsepower: 258, transmission: "Автомат", drive: "Задній", color: "Синій",
-    description: "Еталон керованості серед седанів: точне рульове керування й задній привід." },
+  { brand: "Toyota", name: "GR86", year: 2026, price: 33_500, body_type: "Купе",
+    engine: "2.4 Boxer", horsepower: 228, transmission: "Механіка (6)", drive: "Задній", color: "Жовтий",
+    description: "Легке заднєприводне купе, створене для чистого водійського задоволення." },
 
-  { brand: "Toyota", name: "GR86", year: 2024, price: 33_900, body_type: "Купе",
-    engine: "2.4 Boxer", horsepower: 234, transmission: "Механіка (6)", drive: "Задній", color: "Жовтий",
-    description: "Легке заднєприводне купе для чистого водійського задоволення." },
+  { brand: "Toyota", name: "Camry Hybrid", year: 2026, price: 35_900, body_type: "Седан",
+    engine: "2.5 Hybrid", horsepower: 225, transmission: "Електронний варіатор (e-CVT)", drive: "Передній", color: "Сірий",
+    description: "Класичний середній седан нового покоління. Тільки гібрид: низька витрата пального й комфорт на щодень." },
 
-  { brand: "Chevrolet", name: "Camaro SS", year: 2023, price: 48_700, body_type: "Купе",
-    engine: "6.2 V8", horsepower: 455, transmission: "Автомат (10)", drive: "Задній", color: "Червоний",
-    status: :reserved,
-    description: "Американський мускул-кар з атмосферним V8 і характерним звуком." },
+  { brand: "Chevrolet", name: "Corvette Stingray", year: 2026, price: 72_500, body_type: "Купе",
+    engine: "6.2 V8", horsepower: 495, transmission: "Робот (8DCT)", drive: "Задній", color: "Червоний",
+    description: "Середньомоторний американський суперкар з атмосферним V8, що змагається з європейськими конкурентами." },
 
-  { brand: "Dodge", name: "Challenger R/T", year: 2023, price: 44_300, body_type: "Купе",
-    engine: "5.7 HEMI V8", horsepower: 375, transmission: "Автомат (8)", drive: "Задній", color: "Помаранчевий",
-    description: "Ретро-дизайн, великий салон і V8, який чути за квартал." },
+  { brand: "Chevrolet", name: "Equinox RS", year: 2026, price: 36_500, body_type: "Кросовер",
+    engine: "1.5 Turbo", horsepower: 175, transmission: "Автомат (6)", drive: "Передній", color: "Білий",
+    description: "Сімейний кросовер у спортивній комплектації RS: просторий салон, великий екран і сучасні системи допомоги водієві." },
 
-  { brand: "Subaru", name: "Outback", year: 2024, price: 36_800, body_type: "Універсал",
+  { brand: "Dodge", name: "Charger Sixpack R/T", year: 2026, price: 52_000, body_type: "Седан",
+    engine: "3.0 Twin-Turbo I6", horsepower: 420, transmission: "Автомат (8)", drive: "Повний (AWD)", color: "Помаранчевий",
+    description: "Новий Charger з турбованою рядною шістіркою, широким кузовом у стилі класичних маслкарів і повним приводом." },
+
+  { brand: "Subaru", name: "Outback", year: 2026, price: 37_900, body_type: "Універсал",
     engine: "2.5 Boxer", horsepower: 182, transmission: "Варіатор (CVT)", drive: "Повний (Symmetrical AWD)", color: "Зелений",
-    description: "Надійний повний привід і дорожній просвіт для будь-якої погоди." },
+    description: "Універсал із великим дорожнім просвітом і постійним повним приводом для будь-якої погоди й бездоріжжя." },
 
-  { brand: "Honda", name: "Civic Type R", year: 2024, price: 47_600, body_type: "Хетчбек",
-    engine: "2.0 VTEC Turbo", horsepower: 329, transmission: "Механіка (6)", drive: "Передній", color: "Білий",
-    description: "Найшвидший передньоприводний хетчбек, створений для треку, але придатний для щоденних поїздок." },
+  { brand: "Honda", name: "Civic Type R", year: 2026, price: 48_900, body_type: "Хетчбек",
+    engine: "2.0 VTEC Turbo", horsepower: 329, transmission: "Механіка (6)", drive: "Передній", color: "Сірий",
+    description: "Найшвидший передньоприводний хетчбек, створений для треку, але цілком придатний для щоденних поїздок." },
 
-  { brand: "Volvo", name: "V60 B4", year: 2024, price: 49_900, body_type: "Універсал",
-    engine: "2.0 Mild Hybrid", horsepower: 197, transmission: "Автомат (8)", drive: "Передній", color: "Сірий",
-    description: "Скандинавська безпека, мінімалістичний салон і м'яка гібридна силова установка." },
-
-  { brand: "Saab", name: "9-3 Aero", year: 2011, price: 29_900, body_type: "Седан",
-    engine: "2.8 V6 Turbo", horsepower: 280, transmission: "Автомат", drive: "Повний (XWD)", color: "Синій",
-    description: "Колекційна рідкість: новий автомобіль із довготривалого зберігання, без пробігу." }
+  { brand: "Volvo", name: "XC60 B5", year: 2026, price: 53_900, body_type: "Кросовер",
+    engine: "2.0 Mild Hybrid", horsepower: 250, transmission: "Автомат (8)", drive: "Повний (AWD)", color: "Синій",
+    description: "Скандинавська безпека, мінімалістичний салон і м'яка гібридна силова установка." }
 ]
 
 cars_data.each do |attrs|

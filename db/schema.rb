@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_18_202047) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_18_210317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,6 +66,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_202047) do
     t.index ["user_id"], name: "index_carts_on_user_id", unique: true
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "car_id", null: false
+    t.decimal "price", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_order_items_on_car_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "branch_id", null: false
+    t.decimal "total_price", precision: 10, scale: 2
+    t.decimal "deposit_amount", precision: 10, scale: 2
+    t.datetime "pickup_at"
+    t.integer "status", default: 0, null: false
+    t.string "card_last4"
+    t.datetime "paid_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_orders_on_branch_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -85,4 +110,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_202047) do
   add_foreign_key "cart_items", "cars"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "carts", "users"
+  add_foreign_key "order_items", "cars"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "branches"
+  add_foreign_key "orders", "users"
 end

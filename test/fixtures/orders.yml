@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  branch: one
+  total_price: 9.99
+  deposit_amount: 9.99
+  pickup_at: 2026-11-18 21:03:16
+  status: 1
+  card_last4: MyString
+  paid_at: 2026-11-18 21:03:16
+
+two:
+  user: two
+  branch: two
+  total_price: 9.99
+  deposit_amount: 9.99
+  pickup_at: 2026-11-18 21:03:16
+  status: 1
+  card_last4: MyString
+  paid_at: 2026-11-18 21:03:16

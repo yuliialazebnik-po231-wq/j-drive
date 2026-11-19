@@ -21,6 +21,7 @@
         <div class="ms-auto d-flex gap-2 align-items-center">
           <% if user_signed_in? %>
             <span class="text-light"><%= current_user.name %></span>
+            <%= link_to "Мої замовлення", orders_path, class: "btn btn-outline-light btn-sm" %>
             <%= link_to cart_path, class: "btn btn-outline-light btn-sm" do %>
               Кошик <span class="badge text-bg-warning"><%= cart_count %></span>
             <% end %>

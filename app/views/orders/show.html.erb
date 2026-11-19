@@ -1,0 +1,57 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Мої замовлення", orders_path %></li>
+    <li class="breadcrumb-item active">Замовлення №<%= @order.id %></li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Замовлення №<%= @order.id %></h1>
+  <%= order_status_badge(@order) %>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card mb-4">
+      <div class="card-header fw-bold">Автомобілі</div>
+      <ul class="list-group list-group-flush">
+        <% @order.order_items.includes(car: :brand).each do |item| %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><%= link_to item.car.full_name, car_path(item.car), class: "text-decoration-none" %> (<%= item.car.year %>)</span>
+            <strong><%= format_money(item.price) %></strong>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header fw-bold">Видача автомобіля</div>
+      <div class="card-body">
+        <p class="mb-1"><strong>Філія:</strong> <%= @order.branch.full_address %>, <%= @order.branch.city %></p>
+        <p class="mb-1"><strong>Телефон:</strong> <%= @order.branch.phone %></p>
+        <p class="mb-0"><strong>Дата й час:</strong> <%= l(@order.pickup_at, format: "%d.%m.%Y о %H:%M") %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-header fw-bold">Оплата</div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Вартість автомобілів</span><strong><%= format_money(@order.total_price) %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Сплачена застава</span><strong class="text-success"><%= format_money(@order.deposit_amount) %></strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <span>Залишок до сплати в салоні</span><strong><%= format_money(@order.remaining_amount) %></strong>
+        </li>
+        <li class="list-group-item text-muted small">
+          Картка: **** **** **** <%= @order.card_last4 %><br>
+          Сплачено: <%= l(@order.paid_at, format: "%d.%m.%Y %H:%M") %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

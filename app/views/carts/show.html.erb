@@ -38,7 +38,11 @@
 
   <div class="d-flex justify-content-between">
     <%= link_to "← Продовжити перегляд", cars_path, class: "btn btn-outline-secondary" %>
-    <button class="btn btn-warning btn-lg" disabled>Оформити замовлення (скоро)</button>
+        <% if @items.all? { |item| item.car.available? } %>
+      <%= link_to "Оформити замовлення", new_order_path, class: "btn btn-warning btn-lg" %>
+    <% else %>
+      <button class="btn btn-secondary btn-lg" disabled>Приберіть недоступні авто</button>
+    <% end %>
   </div>
 <% else %>
   <div class="alert alert-info">Ваш кошик порожній.</div>

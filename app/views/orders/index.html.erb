@@ -1,0 +1,33 @@
+<h1 class="mb-4">Мої замовлення</h1>
+
+<% if @orders.any? %>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Автомобілі</th>
+          <th>Видача</th>
+          <th>Застава</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <tr>
+            <td><%= order.id %></td>
+            <td><%= order.cars.map(&:full_name).join(", ") %></td>
+            <td><%= order.branch.city %>, <%= l(order.pickup_at, format: "%d.%m.%Y %H:%M") %></td>
+            <td><%= format_money(order.deposit_amount) %></td>
+            <td><%= order_status_badge(order) %></td>
+            <td class="text-end"><%= link_to "Деталі", order_path(order), class: "btn btn-dark btn-sm" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">У вас поки що немає замовлень.</div>
+  <%= link_to "Перейти до каталогу", cars_path, class: "btn btn-warning" %>
+<% end %>
