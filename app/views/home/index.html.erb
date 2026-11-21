@@ -36,7 +36,7 @@
       <% @featured.each do |car| %>
         <div class="col">
           <div class="card h-100 shadow-sm card-hover">
-            <div class="car-photo"><%= car.brand.name %></div>
+           <%= car_photo(car) %>
             <div class="card-body">
               <h5 class="card-title"><%= car.full_name %></h5>
               <p class="text-muted mb-2"><%= car.year %> · <%= car.body_type %> · <%= car.horsepower %> к.с.</p>

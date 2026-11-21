@@ -4,6 +4,7 @@ class Car < ApplicationRecord
   has_many :order_items, dependent: :restrict_with_error
   has_many :reviews, dependent: :destroy
   has_many :test_drives, dependent: :destroy
+
   enum :status, { available: 0, reserved: 1, sold: 2 }
 
   validates :name, :year, :price, presence: true
@@ -12,11 +13,11 @@ class Car < ApplicationRecord
 
   def full_name
     "#{brand.name} #{name}"
-    
+  end
+
   def average_rating
     return nil if reviews.empty?
 
     (reviews.sum(&:rating).to_f / reviews.size).round(1)
-  end
   end
 end

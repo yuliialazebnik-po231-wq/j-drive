@@ -7,7 +7,7 @@
 
 <div class="row g-4">
   <div class="col-lg-7">
-    <div class="car-photo car-photo-lg rounded"><%= @car.brand.name %></div>
+    <%= car_photo(@car, size: :large) %>
     <h3 class="mt-4">Опис</h3>
     <p><%= @car.description %></p>
   </div>

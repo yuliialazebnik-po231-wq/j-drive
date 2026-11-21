@@ -48,3 +48,79 @@
   transform: translateY(-4px);
   box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15) !important;
 }
+/* ===== Оновлений вигляд J-Drive ===== */
+:root {
+  --jd-ink: #0f172a;
+  --jd-accent: #f5a524;
+  --jd-accent-dark: #d98c0a;
+  --bs-body-font-family: "Inter", system-ui, sans-serif;
+  --bs-body-bg: #f4f5f7;
+  --bs-body-color: #1e293b;
+}
+
+h1, h2, h3, h4, h5, .navbar-brand, .display-3, .display-4, .display-5, .display-6, .card .fs-4.fw-bold {
+  font-family: "Montserrat", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.navbar {
+  background: var(--jd-ink) !important;
+  border-bottom: 3px solid var(--jd-accent);
+}
+.navbar-brand { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.03em; }
+.navbar .nav-link { opacity: 0.85; }
+.navbar .nav-link:hover { opacity: 1; }
+
+.btn { border-radius: 0.65rem; font-weight: 600; }
+.btn-warning {
+  --bs-btn-color: #111827;
+  --bs-btn-bg: var(--jd-accent);
+  --bs-btn-border-color: var(--jd-accent);
+  --bs-btn-hover-color: #111827;
+  --bs-btn-hover-bg: var(--jd-accent-dark);
+  --bs-btn-hover-border-color: var(--jd-accent-dark);
+  --bs-btn-active-color: #111827;
+  --bs-btn-active-bg: var(--jd-accent-dark);
+  --bs-btn-active-border-color: var(--jd-accent-dark);
+}
+.btn-dark {
+  --bs-btn-bg: var(--jd-ink);
+  --bs-btn-border-color: var(--jd-ink);
+}
+
+.card {
+  border: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+.card-header { background: #fff; border-bottom: 1px solid #eef0f3; }
+.badge { border-radius: 999px; padding: 0.45em 0.8em; font-weight: 600; }
+.form-control, .form-select { border-radius: 0.65rem; }
+
+.nav-pills .nav-link { color: var(--jd-ink); border-radius: 0.65rem; font-weight: 600; }
+.nav-pills .nav-link.active { background: var(--jd-ink); color: #fff; }
+
+.car-photo {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e293b, #475569);
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+img.car-photo { display: block; width: 100%; object-fit: cover; }
+.car-photo-lg { height: 380px; }
+
+.hero {
+  min-height: 520px;
+  border-radius: 1.5rem !important;
+  background-image: linear-gradient(135deg, #0f172a, #334155);
+}
+.hero h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 800; }

@@ -22,4 +22,16 @@ module CarsHelper
     filled = rating.to_f.round
     ("★" * filled) + ("☆" * (5 - filled))
   end
+
+  def car_photo(car, size: :card)
+    css = size == :large ? "car-photo car-photo-lg rounded" : "car-photo"
+    slug = "#{car.brand.name} #{car.name}".parameterize
+
+    %w[jpg jpeg png webp].each do |ext|
+      file = "cars/#{slug}.#{ext}"
+      return image_tag(file, alt: car.full_name, class: css) if Rails.root.join("app/assets/images", file).exist?
+    end
+
+    content_tag(:div, car.brand.name, class: css)
+  end
 end
