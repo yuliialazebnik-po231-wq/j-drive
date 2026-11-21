@@ -1,5 +1,71 @@
-<div class="p-5 mb-4 bg-light rounded-3">
-  <h1 class="display-5 fw-bold"><%= Rails.configuration.x.shop_name %></h1>
-  <p class="lead">Салон нових автомобілів</p>
-  <%= link_to "Переглянути каталог", cars_path, class: "btn btn-warning btn-lg" %>
-</div>
+<% hero_file = Rails.root.join("app/assets/images/hero.jpg") %>
+<% hero_style = hero_file.exist? ? "background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(#{image_path('hero.jpg')});" : nil %>
+
+<section class="hero rounded-4 mb-5" style="<%= hero_style %>">
+  <div class="px-3">
+    <h1 class="display-3 fw-bold"><%= Rails.configuration.x.shop_name %></h1>
+    <p class="lead mb-4">Салон нових автомобілів з характером</p>
+    <%= link_to "Переглянути каталог", cars_path, class: "btn btn-warning btn-lg me-2" %>
+    <%= link_to "Контакти", new_feedback_message_path, class: "btn btn-outline-light btn-lg" %>
+  </div>
+</section>
+
+<section class="mb-5">
+  <div class="row g-4 text-center">
+    <% [
+      [ "🚗", "Лише нові авто", "У каталозі тільки актуальні моделі без пробігу." ],
+      [ "🔒", "Застава онлайн", "Забронюйте авто заставою від $500 до $5 000. Решту суми сплатите в салоні." ],
+      [ "🔑", "Тест-драйв", "Запишіться на пробну поїздку у зручний для вас час в найближчій філії." ]
+    ].each do |icon, title, text| %>
+      <div class="col-md-4">
+        <div class="display-4"><%= icon %></div>
+        <h5 class="mt-2"><%= title %></h5>
+        <p class="text-muted"><%= text %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<% if @featured.any? %>
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-baseline mb-3">
+      <h2 class="mb-0">Топ пропозиції</h2>
+      <%= link_to "Увесь каталог →", cars_path, class: "text-decoration-none" %>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <% @featured.each do |car| %>
+        <div class="col">
+          <div class="card h-100 shadow-sm card-hover">
+            <div class="car-photo"><%= car.brand.name %></div>
+            <div class="card-body">
+              <h5 class="card-title"><%= car.full_name %></h5>
+              <p class="text-muted mb-2"><%= car.year %> · <%= car.body_type %> · <%= car.horsepower %> к.с.</p>
+              <p class="fs-4 fw-bold mb-0"><%= car_price(car) %></p>
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+              <%= car_status_badge(car) %>
+              <%= link_to "Детальніше", car_path(car), class: "btn btn-dark btn-sm" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+<section class="mb-4">
+  <h2 class="mb-3">Наші салони</h2>
+  <div class="row g-3">
+    <% @branches.each do |branch| %>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= branch.city %></h5>
+            <p class="mb-1"><%= branch.address %></p>
+            <p class="text-muted mb-0"><%= branch.phone %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
