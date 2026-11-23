@@ -84,3 +84,19 @@ end
 end
 
 puts "Марок: #{Brand.count}, авто: #{Car.count}, філій: #{Branch.count}"
+
+# ---------- Адміністратор (дані беруться зі змінних середовища) ----------
+admin_email = ENV["ADMIN_EMAIL"]
+admin_password = ENV["ADMIN_PASSWORD"].to_s
+
+if admin_email.present? && admin_password.length >= 12
+  User.find_or_create_by!(email: admin_email) do |user|
+    user.name = "Адміністратор"
+    user.password = admin_password
+    user.password_confirmation = admin_password
+    user.admin = true
+  end
+  puts "Адміністратора створено або знайдено: #{admin_email}"
+else
+  puts "ADMIN_EMAIL і ADMIN_PASSWORD (від 12 символів) не задано, адміністратора не створено"
+end
