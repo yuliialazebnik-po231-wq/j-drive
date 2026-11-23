@@ -9,10 +9,10 @@ class CarsController < ApplicationController
     @cars = @cars.where("price <= ?", params[:max_price]) if params[:max_price].present?
 
     @cars = case params[:sort]
-            when "price_asc"  then @cars.order(price: :asc)
-            when "price_desc" then @cars.order(price: :desc)
-            else @cars.order(created_at: :desc)
-            end
+    when "price_asc"  then @cars.order(price: :asc)
+    when "price_desc" then @cars.order(price: :desc)
+    else @cars.order(created_at: :desc)
+    end
   end
 
   def show
